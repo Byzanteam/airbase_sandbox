@@ -1,18 +1,9 @@
 defmodule AirbaseSandbox do
   @moduledoc """
-  Documentation for `AirbaseSandbox`.
+  WebAssembly based Sandbox.
+
+  ## Scenario
+  - Custom Node of Workflow
+  - FormulaField
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> AirbaseSandbox.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
