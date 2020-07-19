@@ -9,16 +9,32 @@ defmodule AirbaseSandbox.Program do
 
   @spec run(binary(), map(), list()) :: {:ok, term()} | {:error, term()}
   def run(bytes, imports, args) do
-    with(
-      {:ok, instance} <-
-        AirbaseSandbox.Program.Server.start_child(bytes, imports)
-    ) do
-      try do
-        # TODO: memory
-        Wasmex.call_function(instance, @program_entrypoint, args)
-      after
-        AirbaseSandbox.Program.Server.stop_child(instance)
-      end
+    case AirbaseSandbox.Program.Server.start_child(bytes, imports) do
+      {:ok, instance} ->
+        try do
+          # TODO: memory
+          Wasmex.call_function(instance, @program_entrypoint, args)
+        after
+          AirbaseSandbox.Program.Server.stop_child(instance)
+        end
+
+      _ ->
+        {:error, :invalid_wasm}
+    end
+  end
+
+  @spec validate?(pid()) :: boolean()
+  def validate?(bytes) do
+    case AirbaseSandbox.Program.Server.start_child(bytes, %{}) do
+      {:ok, instance} ->
+        try do
+          Wasmex.function_exists(instance, @program_entrypoint)
+        after
+          AirbaseSandbox.Program.Server.stop_child(instance)
+        end
+
+      _ ->
+        false
     end
   end
 end

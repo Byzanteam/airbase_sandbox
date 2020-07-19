@@ -22,4 +22,17 @@ defmodule AirbaseSandbox.ProgramTest do
     assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
              DynamicSupervisor.count_children(AirbaseSandbox.Program.Server)
   end
+
+  @tag cd: "test/fixtures"
+  test "validate the program" do
+    {:ok, add_wasm} = File.read("add.wasm")
+    {:ok, invalid_exports_wasm} = File.read("invalid_exports.wasm")
+
+    assert AirbaseSandbox.Program.validate?(add_wasm)
+    refute AirbaseSandbox.Program.validate?(invalid_exports_wasm)
+
+    # kill the instance after run
+    assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
+             DynamicSupervisor.count_children(AirbaseSandbox.Program.Server)
+  end
 end
