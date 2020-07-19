@@ -23,18 +23,22 @@ defmodule AirbaseSandbox.Program do
     end
   end
 
-  @spec validate?(pid()) :: boolean()
-  def validate?(bytes) do
+  @spec validate(binary()) :: :ok | {:error, term()}
+  def validate(bytes) do
     case AirbaseSandbox.Program.Server.start_child(bytes, %{}) do
       {:ok, instance} ->
         try do
-          Wasmex.function_exists(instance, @program_entrypoint)
+          if Wasmex.function_exists(instance, @program_entrypoint) do
+            :ok
+          else
+            {:error, :entrypoint_not_exist}
+          end
         after
           AirbaseSandbox.Program.Server.stop_child(instance)
         end
 
       _ ->
-        false
+        {:error, :invalid_wasm}
     end
   end
 end
