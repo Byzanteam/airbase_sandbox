@@ -14,18 +14,17 @@ defmodule AirbaseSandbox.Program.Server do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  @idle_ms 10 * 1000
-
   @spec start_child(binary(), map()) :: {:ok, pid()} | {:error, term}
   def start_child(bytes, imports) do
     spec = %{
-      id: GenServer,
+      id: Wasmex,
       start:
-        {GenServer, :start_link,
+        {Wasmex, :start_link,
          [
-           Wasmex,
-           %{bytes: bytes, imports: stringify_keys(imports)}
-         ]}
+           %{bytes: bytes, imports: imports}
+         ]},
+      restart: :temporary,
+      type: :worker
     }
 
     DynamicSupervisor.start_child(__MODULE__, spec)
@@ -38,13 +37,4 @@ defmodule AirbaseSandbox.Program.Server do
       {:error, :not_found} -> :ok
     end
   end
-
-  defp stringify_keys(atom_key_map) when is_map(atom_key_map) do
-    for {key, val} <- atom_key_map, into: %{}, do: {stringify(key), stringify_keys(val)}
-  end
-
-  defp stringify_keys(value), do: value
-
-  defp stringify(s) when is_binary(s), do: s
-  defp stringify(s) when is_atom(s), do: Atom.to_string(s)
 end

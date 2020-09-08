@@ -13,11 +13,14 @@ defmodule AirbaseSandbox.ProgramTest do
   end
 
   @tag cd: "test/fixtures"
-  describe "run/3" do
+  describe "run/2" do
     test "run the program" do
-      {:ok, add_wasm} = File.read("add.wasm")
-
-      assert {:ok, [3]} === AirbaseSandbox.Program.run(add_wasm, %{}, [1, 2])
+      assert {:ok, [1, 2]} ===
+               AirbaseSandbox.Program.run([1, 2],
+                 program_loader: fn ->
+                   File.read("echo.wasm")
+                 end
+               )
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
@@ -28,13 +31,26 @@ defmodule AirbaseSandbox.ProgramTest do
   @tag cd: "test/fixtures"
   describe "validate/1" do
     test "validate the program" do
-      {:ok, add_wasm} = File.read("add.wasm")
-      {:ok, invalid_exports_wasm} = File.read("invalid_exports.wasm")
+      assert :ok ===
+               AirbaseSandbox.Program.validate(
+                 program_loader: fn ->
+                   File.read("echo.wasm")
+                 end
+               )
 
-      assert :ok === AirbaseSandbox.Program.validate(add_wasm)
+      assert {:error, :entrypoint_not_exported} ===
+               AirbaseSandbox.Program.validate(
+                 program_loader: fn ->
+                   File.read("invalid_exports.wasm")
+                 end
+               )
 
-      assert {:error, :entrypoint_not_exist} ===
-               AirbaseSandbox.Program.validate(invalid_exports_wasm)
+      assert {:error, :invalid_program} ===
+               AirbaseSandbox.Program.validate(
+                 program_loader: fn ->
+                   File.read("invalid_memory.wasm")
+                 end
+               )
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
