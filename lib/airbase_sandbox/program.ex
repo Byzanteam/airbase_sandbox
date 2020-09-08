@@ -2,10 +2,10 @@ defmodule AirbaseSandbox.Program do
   @moduledoc """
   A program is a WebAssembly program.
 
-  The entrypoint of the program is `main` function.
+  The entrypoint of the program is `run` function.
   """
 
-  @program_entrypoint "main"
+  @program_entrypoint "run"
 
   @spec run(binary(), map(), list()) :: {:ok, term()} | {:error, term()}
   def run(bytes, imports, args) do
