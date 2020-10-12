@@ -1,6 +1,8 @@
 defmodule AirbaseSandbox.ProgramTest do
   use ExUnit.Case
 
+  import ExUnit.CaptureLog
+
   setup context do
     # Read the :cd tag value
     if cd = context[:cd] do
@@ -45,12 +47,14 @@ defmodule AirbaseSandbox.ProgramTest do
                  end
                )
 
-      assert {:error, :invalid_program} ===
-               AirbaseSandbox.Program.validate(
-                 program_loader: fn ->
-                   File.read("invalid_memory.wasm")
-                 end
-               )
+      assert capture_log(fn ->
+               assert {:error, :invalid_program} ===
+                        AirbaseSandbox.Program.validate(
+                          program_loader: fn ->
+                            File.read("invalid_memory.wasm")
+                          end
+                        )
+             end) =~ "The WebAssembly module has no exported memory."
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
