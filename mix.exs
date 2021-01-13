@@ -26,7 +26,7 @@ defmodule AirbaseSandbox.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:wasmex, github: "tessi/wasmex", branch: "master"},
+      {:wasmex, "~> 0.3.0"},
       {:typed_struct, "~> 0.2.0"}
     ]
   end
