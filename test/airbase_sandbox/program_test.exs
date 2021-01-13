@@ -1,6 +1,7 @@
 defmodule AirbaseSandbox.ProgramTest do
   use ExUnit.Case
 
+  require Logger
   import ExUnit.CaptureLog
 
   setup context do
@@ -32,6 +33,15 @@ defmodule AirbaseSandbox.ProgramTest do
 
   @tag cd: "test/fixtures"
   describe "validate/1" do
+    setup do
+      prev_level = Logger.level()
+      Logger.configure(level: :info)
+
+      on_exit(fn ->
+        Logger.configure(level: prev_level)
+      end)
+    end
+
     test "validate the program" do
       assert :ok ===
                AirbaseSandbox.Program.validate(
@@ -47,13 +57,15 @@ defmodule AirbaseSandbox.ProgramTest do
                  end
                )
 
-      assert capture_log(fn ->
+      assert capture_log([level: :info], fn ->
                assert {:error, :invalid_program} ===
                         AirbaseSandbox.Program.validate(
                           program_loader: fn ->
                             File.read("invalid_memory.wasm")
                           end
                         )
+
+               Logger.info("123")
              end) =~ "The WebAssembly module has no exported memory."
 
       # kill the instance after run

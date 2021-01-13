@@ -128,7 +128,18 @@ defmodule AirbaseSandbox.Program do
       {:max_bytes_size, false} ->
         {:error, :program_size_exceeds}
 
-      _ ->
+      {:error, {msg, stack}} ->
+        Logger.info(fn ->
+          """
+          [#{inspect(__MODULE__)}] failed to instantiate program.
+          message: #{inspect(msg)}
+          stack: #{inspect(stack)}
+          """
+        end)
+
+        {:error, :invalid_program}
+
+      _error ->
         {:error, :invalid_program}
     end
   end
