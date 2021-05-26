@@ -18,7 +18,7 @@ defmodule AirbaseSandbox.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :cachex],
       mod: {AirbaseSandbox.Application, []}
     ]
   end
@@ -27,7 +27,8 @@ defmodule AirbaseSandbox.MixProject do
   defp deps do
     [
       {:wasmex, "~> 0.3.0"},
-      {:typed_struct, "~> 0.2.0"}
+      {:typed_struct, "~> 0.2.0"},
+      {:cachex, "~> 3.3"}
     ]
   end
 end

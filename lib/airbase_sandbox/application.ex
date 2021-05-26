@@ -7,6 +7,7 @@ defmodule AirbaseSandbox.Application do
 
   def start(_type, _args) do
     children = [
+      AirbaseSandbox.ProgramRegistry.Cache,
       AirbaseSandbox.Program.Server
     ]
 
