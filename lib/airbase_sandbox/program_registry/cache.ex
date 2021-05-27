@@ -72,7 +72,7 @@ defmodule AirbaseSandbox.ProgramRegistry.Cache do
     end
   end
 
-  @spec write(key :: term(), value) :: value when value: var
+  @spec write(key :: term(), value) :: {:ok, value} | :error when value: var
   def write(key, value) do
     case Cachex.put(__MODULE__, key, value) do
       {:ok, true} -> {:ok, value}
