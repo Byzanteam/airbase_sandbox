@@ -49,7 +49,7 @@ defmodule AirbaseSandbox.Program do
       reply ->
         Logger.error(fn ->
           """
-          [#{inspect(__MODULE__)}] unexpected reply for outputs.
+          unexpected reply for outputs.
           args: #{inspect(args)}
           reply: #{inspect(reply)}
           """
@@ -60,7 +60,7 @@ defmodule AirbaseSandbox.Program do
       0 ->
         Logger.error(fn ->
           """
-          [#{inspect(__MODULE__)}] no reply for outputs.
+          no reply for outputs.
           args: #{inspect(args)}
           """
         end)
@@ -112,7 +112,7 @@ defmodule AirbaseSandbox.Program do
         kind, value ->
           Logger.info(fn ->
             """
-            [#{inspect(__MODULE__)}] failed to instantiate program.
+            failed to instantiate program.
             kind: #{inspect(kind)}
             value: #{inspect(value)}
             """
@@ -131,7 +131,7 @@ defmodule AirbaseSandbox.Program do
       {:error, {msg, stack}} ->
         Logger.info(fn ->
           """
-          [#{inspect(__MODULE__)}] failed to instantiate program.
+          failed to instantiate program.
           message: #{inspect(msg)}
           stack: #{inspect(stack)}
           """
