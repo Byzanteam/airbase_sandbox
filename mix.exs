@@ -27,7 +27,7 @@ defmodule AirbaseSandbox.MixProject do
   defp deps do
     [
       {:wasmex, "~> 0.6.0"},
-      {:typed_struct, "~> 0.2.0"},
+      {:typed_struct, "~> 0.3.0"},
       {:cachex, "~> 3.3"}
     ]
   end
