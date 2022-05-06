@@ -15,16 +15,16 @@ defmodule AirbaseSandbox.Program do
   alias AirbaseSandbox.Program.Hostcall
   require Logger
 
-  @spec run(list(), options_t()) :: {:ok, term()} | {:error, term()}
-  def run(args, options) do
+  @spec run(binary(), options_t()) :: {:ok, binary()} | {:error, term()}
+  def run(args_binary, options) when is_binary(args_binary) do
     case instantiate_program(options) do
       {:ok, instance, memory} ->
-        function_args = prepare_args(memory, args)
+        function_args = prepare_args(memory, args_binary)
 
         try do
           {:ok, _result} = Wasmex.call_function(instance, @program_entrypoint, function_args)
 
-          receive_outputs(args)
+          receive_outputs(args_binary)
         after
           AirbaseSandbox.Program.Server.stop_child(instance)
         end
@@ -34,23 +34,22 @@ defmodule AirbaseSandbox.Program do
     end
   end
 
-  defp prepare_args(memory, args) do
-    binary = :erlang.term_to_binary(args)
-    Wasmex.Memory.write_binary(memory, @memory_index, binary)
+  defp prepare_args(memory, args_binary) when is_binary(args_binary) do
+    Wasmex.Memory.write_binary(memory, @memory_index, args_binary)
 
-    [@memory_index, div(bit_size(binary), 8)]
+    [@memory_index, div(bit_size(args_binary), 8)]
   end
 
-  defp receive_outputs(args) do
+  defp receive_outputs(args_binary) do
     receive do
-      {:outputs, outputs} when is_list(outputs) ->
+      {:outputs, outputs} when is_binary(outputs) ->
         {:ok, outputs}
 
       reply ->
         Logger.error(fn ->
           """
           unexpected reply for outputs.
-          args: #{inspect(args)}
+          args_binary: #{inspect(args_binary)}
           reply: #{inspect(reply)}
           """
         end)
@@ -61,7 +60,7 @@ defmodule AirbaseSandbox.Program do
         Logger.error(fn ->
           """
           no reply for outputs.
-          args: #{inspect(args)}
+          args_binary: #{inspect(args_binary)}
           """
         end)
 

@@ -18,12 +18,16 @@ defmodule AirbaseSandbox.ProgramTest do
   @tag cd: "test/fixtures"
   describe "run/2" do
     test "run the program" do
-      assert {:ok, [1, 2]} ===
-               AirbaseSandbox.Program.run([1, 2],
+      args_binary = "hello"
+
+      assert {:ok, outputs} =
+               AirbaseSandbox.Program.run(args_binary,
                  program_loader: fn ->
                    File.read("echo.wasm")
                  end
                )
+
+      assert outputs === args_binary
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
