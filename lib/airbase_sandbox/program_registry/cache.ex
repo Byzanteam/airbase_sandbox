@@ -1,4 +1,4 @@
-defmodule AirbaseSandbox.ProgramRegistry.Cache do
+defmodule JetSandbox.ProgramRegistry.Cache do
   @moduledoc """
   Cache storage for programs.
   """
@@ -37,19 +37,19 @@ defmodule AirbaseSandbox.ProgramRegistry.Cache do
 
   ## Examples
 
-      iex> AirbaseSandbox.ProgramRegistry.Cache.read(:key)
+      iex> JetSandbox.ProgramRegistry.Cache.read(:key)
       :error
 
-      iex> AirbaseSandbox.ProgramRegistry.Cache.read(:key, fn -> {:ok, :value} end)
+      iex> JetSandbox.ProgramRegistry.Cache.read(:key, fn -> {:ok, :value} end)
       {:ok, :value}
 
-      iex> Cachex.exists?(AirbaseSandbox.ProgramRegistry.Cache, :key)
+      iex> Cachex.exists?(JetSandbox.ProgramRegistry.Cache, :key)
       {:ok, true}
 
-      iex> AirbaseSandbox.ProgramRegistry.Cache.read(:not_exists, fn -> :error end)
+      iex> JetSandbox.ProgramRegistry.Cache.read(:not_exists, fn -> :error end)
       :error
 
-      iex> Cachex.exists?(AirbaseSandbox.ProgramRegistry.Cache, :not_exists)
+      iex> Cachex.exists?(JetSandbox.ProgramRegistry.Cache, :not_exists)
       {:ok, false}
   """
   @spec read(key :: term(), nil) :: {:ok, term()} | :error

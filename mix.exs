@@ -1,10 +1,10 @@
-defmodule AirbaseSandbox.MixProject do
+defmodule JetSandbox.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :airbase_sandbox,
-      version: "0.9.0-next",
+      app: :jet_sandbox,
+      version: "0.9.0",
       build_path: "_build",
       config_path: "config/config.exs",
       deps_path: "deps",
@@ -19,7 +19,7 @@ defmodule AirbaseSandbox.MixProject do
   def application do
     [
       extra_applications: [:logger, :cachex],
-      mod: {AirbaseSandbox.Application, []}
+      mod: {JetSandbox.Application, []}
     ]
   end
 

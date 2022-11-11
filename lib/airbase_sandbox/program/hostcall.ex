@@ -1,4 +1,4 @@
-defmodule AirbaseSandbox.Program.Hostcall do
+defmodule JetSandbox.Program.Hostcall do
   @moduledoc """
   hostcall functions for Program.
   """

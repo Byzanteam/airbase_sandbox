@@ -1,7 +1,7 @@
-defmodule AirbaseSandbox.ProgramRegistry.CacheTest do
+defmodule JetSandbox.ProgramRegistry.CacheTest do
   use ExUnit.Case, async: true
 
-  alias AirbaseSandbox.ProgramRegistry.Cache, as: ProgramRegistryCache
+  alias JetSandbox.ProgramRegistry.Cache, as: ProgramRegistryCache
 
   test "read/2" do
     assert(ProgramRegistryCache.read(:key) === :error)

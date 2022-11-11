@@ -1,4 +1,4 @@
-defmodule AirbaseSandbox do
+defmodule JetSandbox do
   @moduledoc """
   WebAssembly based Sandbox.
 

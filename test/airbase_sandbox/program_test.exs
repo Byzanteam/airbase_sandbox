@@ -1,4 +1,4 @@
-defmodule AirbaseSandbox.ProgramTest do
+defmodule JetSandbox.ProgramTest do
   use ExUnit.Case
 
   require Logger
@@ -21,7 +21,7 @@ defmodule AirbaseSandbox.ProgramTest do
       args_binary = "hello"
 
       assert {:ok, outputs} =
-               AirbaseSandbox.Program.run(args_binary,
+               JetSandbox.Program.run(args_binary,
                  program_loader: fn ->
                    File.read("echo.wasm")
                  end
@@ -31,7 +31,7 @@ defmodule AirbaseSandbox.ProgramTest do
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
-               DynamicSupervisor.count_children(AirbaseSandbox.Program.Server)
+               DynamicSupervisor.count_children(JetSandbox.Program.Server)
     end
   end
 
@@ -48,14 +48,14 @@ defmodule AirbaseSandbox.ProgramTest do
 
     test "validate the program" do
       assert :ok ===
-               AirbaseSandbox.Program.validate(
+               JetSandbox.Program.validate(
                  program_loader: fn ->
                    File.read("echo.wasm")
                  end
                )
 
       assert {:error, :entrypoint_not_exported} ===
-               AirbaseSandbox.Program.validate(
+               JetSandbox.Program.validate(
                  program_loader: fn ->
                    File.read("invalid_exports.wasm")
                  end
@@ -63,7 +63,7 @@ defmodule AirbaseSandbox.ProgramTest do
 
       assert capture_log([level: :info], fn ->
                assert {:error, :invalid_program} ===
-                        AirbaseSandbox.Program.validate(
+                        JetSandbox.Program.validate(
                           program_loader: fn ->
                             File.read("invalid_memory.wasm")
                           end
@@ -74,7 +74,7 @@ defmodule AirbaseSandbox.ProgramTest do
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
-               DynamicSupervisor.count_children(AirbaseSandbox.Program.Server)
+               DynamicSupervisor.count_children(JetSandbox.Program.Server)
     end
   end
 end

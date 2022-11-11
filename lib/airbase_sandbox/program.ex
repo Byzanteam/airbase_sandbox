@@ -1,4 +1,4 @@
-defmodule AirbaseSandbox.Program do
+defmodule JetSandbox.Program do
   @moduledoc """
   A program is a WebAssembly program.
 
@@ -12,7 +12,7 @@ defmodule AirbaseSandbox.Program do
   @max_bytes_size 10 * 1024 * 1000 * 8
   @memory_index 0
 
-  alias AirbaseSandbox.Program.Hostcall
+  alias JetSandbox.Program.Hostcall
   require Logger
 
   @spec run(binary(), options_t()) :: {:ok, binary()} | {:error, term()}
@@ -26,7 +26,7 @@ defmodule AirbaseSandbox.Program do
 
           receive_outputs(args_binary)
         after
-          AirbaseSandbox.Program.Server.stop_child(instance)
+          JetSandbox.Program.Server.stop_child(instance)
         end
 
       _error ->
@@ -79,7 +79,7 @@ defmodule AirbaseSandbox.Program do
             {:error, :entrypoint_not_exported}
           end
         after
-          AirbaseSandbox.Program.Server.stop_child(instance)
+          JetSandbox.Program.Server.stop_child(instance)
         end
 
       _ ->
@@ -93,7 +93,7 @@ defmodule AirbaseSandbox.Program do
       {:ok, bytes} when is_binary(bytes) <- program_loader.(),
       {_, true} <- {:max_bytes_size, @max_bytes_size >= bit_size(bytes)},
       imports = %{env: %{hostcall_set_outputs: Hostcall.set_outputs(self())}},
-      {:ok, instance} <- AirbaseSandbox.Program.Server.start_child(bytes, imports)
+      {:ok, instance} <- JetSandbox.Program.Server.start_child(bytes, imports)
     ) do
       try do
         case Wasmex.memory(instance, :uint8, @memory_index) do
@@ -105,7 +105,7 @@ defmodule AirbaseSandbox.Program do
         end
       rescue
         _ ->
-          AirbaseSandbox.Program.Server.stop_child(instance)
+          JetSandbox.Program.Server.stop_child(instance)
           {:error, :memory_not_exported}
       catch
         kind, value ->
@@ -117,7 +117,7 @@ defmodule AirbaseSandbox.Program do
             """
           end)
 
-          AirbaseSandbox.Program.Server.stop_child(instance)
+          JetSandbox.Program.Server.stop_child(instance)
           {:error, :memory_not_exported}
       end
     else
