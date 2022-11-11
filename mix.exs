@@ -17,10 +17,7 @@ defmodule JetSandbox.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [
-      extra_applications: [:logger, :cachex],
-      mod: {JetSandbox.Application, []}
-    ]
+    [extra_applications: [:logger, :cachex], mod: {JetSandbox.Application, []}]
   end
 
   # Run "mix help deps" to learn about dependencies.
@@ -28,7 +25,9 @@ defmodule JetSandbox.MixProject do
     [
       {:wasmex, "~> 0.7.0"},
       {:typed_struct, "~> 0.3.0"},
-      {:cachex, "~> 3.3"}
+      {:cachex, "~> 3.3"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 end
