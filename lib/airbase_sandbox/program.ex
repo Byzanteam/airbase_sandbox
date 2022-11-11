@@ -13,6 +13,7 @@ defmodule JetSandbox.Program do
   @memory_index 0
 
   alias JetSandbox.Program.Hostcall
+  alias JetSandbox.Program.Server
   require Logger
 
   @spec run(binary(), options_t()) :: {:ok, binary()} | {:error, term()}
@@ -26,7 +27,7 @@ defmodule JetSandbox.Program do
 
           receive_outputs(args_binary)
         after
-          JetSandbox.Program.Server.stop_child(instance)
+          Server.stop_child(instance)
         end
 
       _error ->
@@ -79,7 +80,7 @@ defmodule JetSandbox.Program do
             {:error, :entrypoint_not_exported}
           end
         after
-          JetSandbox.Program.Server.stop_child(instance)
+          Server.stop_child(instance)
         end
 
       _ ->
@@ -93,7 +94,7 @@ defmodule JetSandbox.Program do
       {:ok, bytes} when is_binary(bytes) <- program_loader.(),
       {_, true} <- {:max_bytes_size, @max_bytes_size >= bit_size(bytes)},
       imports = %{env: %{hostcall_set_outputs: Hostcall.set_outputs(self())}},
-      {:ok, instance} <- JetSandbox.Program.Server.start_child(bytes, imports)
+      {:ok, instance} <- Server.start_child(bytes, imports)
     ) do
       try do
         case Wasmex.memory(instance, :uint8, @memory_index) do
@@ -105,7 +106,7 @@ defmodule JetSandbox.Program do
         end
       rescue
         _ ->
-          JetSandbox.Program.Server.stop_child(instance)
+          Server.stop_child(instance)
           {:error, :memory_not_exported}
       catch
         kind, value ->
@@ -117,7 +118,7 @@ defmodule JetSandbox.Program do
             """
           end)
 
-          JetSandbox.Program.Server.stop_child(instance)
+          Server.stop_child(instance)
           {:error, :memory_not_exported}
       end
     else
