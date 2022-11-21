@@ -26,6 +26,7 @@ defmodule JetSandbox.MixProject do
       {:wasmex, "~> 0.7.0"},
       {:typed_struct, "~> 0.3.0"},
       {:cachex, "~> 3.3"},
+      {:finch, "~> 0.13"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
