@@ -8,7 +8,8 @@ defmodule JetSandbox.Application do
   def start(_type, _args) do
     children = [
       JetSandbox.ProgramRegistry.Cache,
-      JetSandbox.Program.Server
+      JetSandbox.Program.Server,
+      {Finch, name: JetSandboxFinch}
     ]
 
     opts = [strategy: :one_for_one, name: JetSandbox.Supervisor]
