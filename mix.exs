@@ -23,6 +23,8 @@ defmodule JetSandbox.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:jason, "~> 1.4"},
+      {:finch, "~> 0.13.0"},
       {:wasmex, "~> 0.7.0"},
       {:typed_struct, "~> 0.3.0"},
       {:cachex, "~> 3.3"},
