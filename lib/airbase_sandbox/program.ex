@@ -93,7 +93,7 @@ defmodule JetSandbox.Program do
       {:ok, program_loader} <- Keyword.fetch(options, :program_loader),
       {:ok, bytes} when is_binary(bytes) <- program_loader.(),
       {_, true} <- {:max_bytes_size, @max_bytes_size >= bit_size(bytes)},
-      imports = %{env: %{hostcall_set_outputs: Hostcall.set_outputs(self())}},
+      imports = %{env: make_env(self())},
       {:ok, instance} <- Server.start_child(bytes, imports)
     ) do
       try do
@@ -142,5 +142,12 @@ defmodule JetSandbox.Program do
       _error ->
         {:error, :invalid_program}
     end
+  end
+
+  defp make_env(instance_pid) do
+    %{
+      hostcall_set_outputs: Hostcall.set_outputs(instance_pid),
+      hostcall_networking_request: Hostcall.networking_request(instance_pid)
+    }
   end
 end
