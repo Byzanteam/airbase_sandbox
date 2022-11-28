@@ -8,8 +8,13 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking.Request do
   typedstruct do
   end
 
-  @spec initialize(binary()) :: t()
+
   def initialize(binary) when is_binary(binary) do
     Jason.decode!(binary)
   end
+
+  def deserialize(response) do
+    Jason.encode!(response)
+  end
+
 end
