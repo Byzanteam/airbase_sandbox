@@ -17,10 +17,10 @@ defmodule JetSandbox.Program do
   require Logger
 
   @spec run(binary(), options_t()) :: {:ok, binary()} | {:error, term()}
-  def run(args_binary, options) when is_binary(args_binary) do
-    case instantiate_program(options) do
+  def run(args_binary, options) when is_binary(args_binary) do #传入的两个值分别为读取的wasm文件和参数
+    case instantiate_program(options) do #进行实力化
       {:ok, instance, memory} ->
-        function_args = prepare_args(memory, args_binary)
+        function_args = prepare_args(memory, args_binary) #解析出参数
 
         try do
           {:ok, _result} = Wasmex.call_function(instance, @program_entrypoint, function_args)
@@ -90,11 +90,11 @@ defmodule JetSandbox.Program do
 
   defp instantiate_program(options) do
     with(
-      {:ok, program_loader} <- Keyword.fetch(options, :program_loader),
+      {:ok, program_loader} <- Keyword.fetch(options, :program_loader), #将关键字列表解析为纯参数
       {:ok, bytes} when is_binary(bytes) <- program_loader.(),
       {_, true} <- {:max_bytes_size, @max_bytes_size >= bit_size(bytes)},
-      imports = %{env: %{hostcall_set_outputs: Hostcall.set_outputs(self())}},
-      {:ok, instance} <- Server.start_child(bytes, imports)
+      imports = %{env: make_env(self())},
+      {:ok, instance} <- Server.start_child(bytes, imports) #实列化
     ) do
       try do
         case Wasmex.memory(instance, :uint8, @memory_index) do
@@ -142,5 +142,12 @@ defmodule JetSandbox.Program do
       _error ->
         {:error, :invalid_program}
     end
+  end
+
+  defp make_env(instance_pid) do
+    %{
+      hostcall_set_outputs: Hostcall.set_outputs(instance_pid),
+      hostcall_networking_request: Hostcall.networking_request(instance_pid)
+    }
   end
 end
