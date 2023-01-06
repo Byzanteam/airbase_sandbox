@@ -54,6 +54,13 @@ defmodule JetSandbox.ProgramTest do
                  end
                )
 
+      assert :ok ===
+               JetSandbox.Program.validate(
+                 program_loader: fn ->
+                   File.read("networking-sample.wasm")
+                 end
+               )
+
       assert {:error, :entrypoint_not_exported} ===
                JetSandbox.Program.validate(
                  program_loader: fn ->
