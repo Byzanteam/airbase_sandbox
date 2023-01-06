@@ -35,4 +35,15 @@ defmodule JetSandbox.Program.Hostcall do
        nil
      end}
   end
+
+  def logger_debug(_insatance_pid) do
+    {:fn, [:i32, :i32], [],
+     fn context, ptr, len ->
+       require Logger
+
+       binary = Wasmex.Memory.read_binary(context.memory, ptr, len)
+       Logger.debug(binary)
+       nil
+     end}
+  end
 end

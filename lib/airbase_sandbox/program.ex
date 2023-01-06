@@ -148,7 +148,8 @@ defmodule JetSandbox.Program do
     %{
       hostcall_set_outputs: Hostcall.set_outputs(instance_pid),
       hostcall_networking_request: Hostcall.networking_request(instance_pid),
-      hostcall_networking_retrieve_response: Hostcall.networking_retrieve_response(instance_pid)
+      hostcall_networking_retrieve_response: Hostcall.networking_retrieve_response(instance_pid),
+      hostcall_logger_debug: Hostcall.logger_debug(instance_pid)
     }
   end
 end
