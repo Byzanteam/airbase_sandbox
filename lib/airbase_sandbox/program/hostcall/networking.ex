@@ -38,7 +38,7 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking do
   end
 
   defp build_finch_request(params) do
-    Response.error(:invalid_json, "Expected a map json, got #{inspect(params)}")
+    {:error, Response.error(:invalid_json, "Expected a map json, got #{inspect(params)}")}
   end
 
   @atom_methods ~w[get post put patch delete head options]a
