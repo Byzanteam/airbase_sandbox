@@ -147,7 +147,8 @@ defmodule JetSandbox.Program do
   defp make_env(instance_pid) do
     %{
       hostcall_set_outputs: Hostcall.set_outputs(instance_pid),
-      hostcall_networking_request: Hostcall.networking_request(instance_pid)
+      hostcall_networking_request: Hostcall.networking_request(instance_pid),
+      hostcall_networking_retrieve_response: Hostcall.networking_retrieve_response(instance_pid)
     }
   end
 end
