@@ -45,6 +45,7 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking.Response do
   defimpl Jason.Encoder do
     alias AirbaseSandbox.Program.Hostcall.Networking.Headers
 
+    # credo:disable-for-next-line Credo.Check.Readability.Specs
     def encode(%{status: :ok, response: response}, opts) do
       response = %{
         status: response.status,
@@ -61,6 +62,7 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking.Response do
       )
     end
 
+    # credo:disable-for-next-line Credo.Check.Readability.Specs
     def encode(%{status: status, error_message: error_message}, opts) do
       Jason.Encode.map(
         %{

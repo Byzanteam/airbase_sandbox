@@ -34,8 +34,8 @@ defmodule AirbaseSandbox.Program.Hostcall.NetworkingTest do
                  end
                )
 
-      map = Jason.decode!(outputs) |> List.first()
-      assert {:ok, _datatime} = map["value"] |> Calendar.ISO.parse_naive_datetime()
+      map = outputs |> Jason.decode!() |> List.first()
+      assert {:ok, _datatime} = Calendar.ISO.parse_naive_datetime(map["value"])
     end
   end
 
