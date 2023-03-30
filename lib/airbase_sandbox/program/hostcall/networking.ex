@@ -3,8 +3,8 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking do
   The Networking.
   """
 
-  alias AirbaseSandbox.Program.Hostcall.Networking.Response
   alias AirbaseSandbox.Program.Hostcall.Networking.Headers
+  alias AirbaseSandbox.Program.Hostcall.Networking.Response
 
   @spec request(binary(), Keyword.t()) :: binary()
   def request(request_binary, opts \\ []) when is_binary(request_binary) do
@@ -88,6 +88,9 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking do
     end
   end
 
+  @spec get_headers(params :: map()) ::
+          {:error, AirbaseSandbox.Program.Hostcall.Networking.Response.t()}
+          | {:ok, [{binary, binary}]}
   def get_headers(params) do
     params
     |> Map.get("headers")

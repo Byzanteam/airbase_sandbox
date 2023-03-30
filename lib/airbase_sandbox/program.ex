@@ -83,7 +83,7 @@ defmodule JetSandbox.Program do
           Server.stop_child(instance)
         end
 
-      _ ->
+      _error ->
         {:error, :invalid_program}
     end
   end
@@ -101,11 +101,11 @@ defmodule JetSandbox.Program do
           {:ok, memory} ->
             {:ok, instance, memory}
 
-          _ ->
+          _error ->
             {:error, :memory_not_exported}
         end
       rescue
-        _ ->
+        _error ->
           Server.stop_child(instance)
           {:error, :memory_not_exported}
       catch

@@ -5,6 +5,7 @@ defmodule JetSandbox.Application do
 
   use Application
 
+  @impl Application
   def start(_type, _args) do
     children = [
       JetSandbox.ProgramRegistry.Cache,

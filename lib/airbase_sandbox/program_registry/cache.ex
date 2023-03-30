@@ -56,18 +56,19 @@ defmodule JetSandbox.ProgramRegistry.Cache do
   @spec read(key :: term(), fallback :: (() -> {:ok, term()} | :error)) :: {:ok, term} | :error
   def read(key, fallback \\ nil) do
     case Cachex.get(__MODULE__, key) do
+      # credo:disable-for-next-line Credo.Check.Refactor.NegatedIsNil
       {:ok, value} when not is_nil(value) ->
         Cachex.touch(__MODULE__, key)
         {:ok, value}
 
-      _ ->
+      _otherwise ->
         with(
           true <- is_function(fallback, 0),
           {:ok, value} <- fallback.()
         ) do
           write(key, value)
         else
-          _ -> :error
+          _otherwise -> :error
         end
     end
   end
@@ -76,7 +77,7 @@ defmodule JetSandbox.ProgramRegistry.Cache do
   def write(key, value) do
     case Cachex.put(__MODULE__, key, value) do
       {:ok, true} -> {:ok, value}
-      _ -> :error
+      _err -> :error
     end
   end
 end
