@@ -1,3 +1,3 @@
-defmodule JetSandboxTest do
+defmodule AirbaseSandboxTest do
   use ExUnit.Case
 end

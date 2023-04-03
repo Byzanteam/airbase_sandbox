@@ -1,4 +1,4 @@
-defmodule JetSandbox.ProgramTest do
+defmodule AirbaseSandbox.ProgramTest do
   use ExUnit.Case
 
   require Logger
@@ -21,7 +21,7 @@ defmodule JetSandbox.ProgramTest do
       args_binary = "hello"
 
       assert {:ok, outputs} =
-               JetSandbox.Program.run(args_binary,
+               AirbaseSandbox.Program.run(args_binary,
                  program_loader: fn ->
                    File.read("echo.wasm")
                  end
@@ -31,7 +31,7 @@ defmodule JetSandbox.ProgramTest do
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
-               DynamicSupervisor.count_children(JetSandbox.Program.Server)
+               DynamicSupervisor.count_children(AirbaseSandbox.Program.Server)
     end
   end
 
@@ -48,21 +48,21 @@ defmodule JetSandbox.ProgramTest do
 
     test "validate the program" do
       assert :ok ===
-               JetSandbox.Program.validate(
+               AirbaseSandbox.Program.validate(
                  program_loader: fn ->
                    File.read("echo.wasm")
                  end
                )
 
       assert :ok ===
-               JetSandbox.Program.validate(
+               AirbaseSandbox.Program.validate(
                  program_loader: fn ->
                    File.read("networking-sample.wasm")
                  end
                )
 
       assert {:error, :entrypoint_not_exported} ===
-               JetSandbox.Program.validate(
+               AirbaseSandbox.Program.validate(
                  program_loader: fn ->
                    File.read("invalid_exports.wasm")
                  end
@@ -70,7 +70,7 @@ defmodule JetSandbox.ProgramTest do
 
       assert capture_log([level: :info], fn ->
                assert {:error, :invalid_program} ===
-                        JetSandbox.Program.validate(
+                        AirbaseSandbox.Program.validate(
                           program_loader: fn ->
                             File.read("invalid_memory.wasm")
                           end
@@ -81,7 +81,7 @@ defmodule JetSandbox.ProgramTest do
 
       # kill the instance after run
       assert %{active: 0, specs: 0, supervisors: 0, workers: 0} ===
-               DynamicSupervisor.count_children(JetSandbox.Program.Server)
+               DynamicSupervisor.count_children(AirbaseSandbox.Program.Server)
     end
   end
 end

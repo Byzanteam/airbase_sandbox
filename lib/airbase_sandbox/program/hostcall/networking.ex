@@ -12,7 +12,7 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking do
       with(
         {:ok, request_params} <- Jason.decode(request_binary),
         {:ok, request} <- build_finch_request(request_params),
-        {:ok, finch_response} <- Finch.request(request, JetSandboxFinch, opts)
+        {:ok, finch_response} <- Finch.request(request, AirbaseSandboxFinch, opts)
       ) do
         Response.ok(finch_response)
       else

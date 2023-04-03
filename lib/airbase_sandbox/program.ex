@@ -1,4 +1,4 @@
-defmodule JetSandbox.Program do
+defmodule AirbaseSandbox.Program do
   @moduledoc """
   A program is a WebAssembly program.
 
@@ -12,8 +12,8 @@ defmodule JetSandbox.Program do
   @max_bytes_size 10 * 1024 * 1000 * 8
   @memory_index 0
 
-  alias JetSandbox.Program.Hostcall
-  alias JetSandbox.Program.Server
+  alias AirbaseSandbox.Program.Hostcall
+  alias AirbaseSandbox.Program.Server
   require Logger
 
   @spec run(binary(), options_t()) :: {:ok, binary()} | {:error, term()}

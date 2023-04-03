@@ -28,7 +28,7 @@ defmodule AirbaseSandbox.Program.Hostcall.NetworkingTest do
       args_binary = Jason.encode!(args)
 
       assert {:ok, outputs} =
-               JetSandbox.Program.run(args_binary,
+               AirbaseSandbox.Program.run(args_binary,
                  program_loader: fn ->
                    File.read("networking-sample.wasm")
                  end

@@ -1,4 +1,4 @@
-defmodule JetSandbox.MixProject do
+defmodule AirbaseSandbox.MixProject do
   use Mix.Project
 
   def project do
@@ -17,7 +17,7 @@ defmodule JetSandbox.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [extra_applications: [:logger, :cachex], mod: {JetSandbox.Application, []}]
+    [extra_applications: [:logger, :cachex], mod: {AirbaseSandbox.Application, []}]
   end
 
   # Run "mix help deps" to learn about dependencies.

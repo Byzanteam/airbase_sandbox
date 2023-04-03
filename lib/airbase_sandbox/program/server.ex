@@ -1,4 +1,4 @@
-defmodule JetSandbox.Program.Server do
+defmodule AirbaseSandbox.Program.Server do
   @moduledoc """
   Manage instantiated programs.
   """
