@@ -34,7 +34,7 @@ defmodule JetSandbox.Program.Hostcall do
                non_neg_integer())
           )
   def networking_request(_instance_pid) do
-    alias AirbaseSandbox.Program.Hostcall.Networking
+    alias JetSandbox.Program.Hostcall.Networking
 
     {:fn, [:i32, :i32], [:i32],
      fn context, request_ptr, request_len ->

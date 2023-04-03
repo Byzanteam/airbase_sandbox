@@ -1,4 +1,4 @@
-defmodule AirbaseSandbox.Program.Hostcall.Networking.Response do
+defmodule JetSandbox.Program.Hostcall.Networking.Response do
   @moduledoc """
   The response struct for Networking.
   """
@@ -43,7 +43,7 @@ defmodule AirbaseSandbox.Program.Hostcall.Networking.Response do
   end
 
   defimpl Jason.Encoder do
-    alias AirbaseSandbox.Program.Hostcall.Networking.Headers
+    alias JetSandbox.Program.Hostcall.Networking.Headers
 
     # credo:disable-for-next-line Credo.Check.Readability.Specs
     def encode(%{status: :ok, response: response}, opts) do
