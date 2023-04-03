@@ -1,6 +1,6 @@
-defmodule JetSandbox.Program.Hostcall.NetworkingTest do
+defmodule AirbaseSandbox.Program.Hostcall.NetworkingTest do
   use ExUnit.Case
-  alias JetSandbox.Program.Hostcall.Networking
+  alias AirbaseSandbox.Program.Hostcall.Networking
   require Logger
 
   setup context do

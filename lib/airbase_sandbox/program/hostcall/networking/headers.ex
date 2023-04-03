@@ -1,4 +1,4 @@
-defmodule JetSandbox.Program.Hostcall.Networking.Headers do
+defmodule AirbaseSandbox.Program.Hostcall.Networking.Headers do
   @moduledoc false
 
   @type t() :: [[String.t()]]

@@ -1,6 +1,6 @@
-defmodule JetSandbox.Program.Hostcall.Networking.ResponseTest do
+defmodule AirbaseSandbox.Program.Hostcall.Networking.ResponseTest do
   use ExUnit.Case
-  alias JetSandbox.Program.Hostcall.Networking.Response
+  alias AirbaseSandbox.Program.Hostcall.Networking.Response
 
   test "ok/2 returns a valid response payload" do
     response = %Finch.Response{
@@ -17,7 +17,7 @@ defmodule JetSandbox.Program.Hostcall.Networking.ResponseTest do
     }
 
     assert match?(
-             %JetSandbox.Program.Hostcall.Networking.Response{response: ^response},
+             %AirbaseSandbox.Program.Hostcall.Networking.Response{response: ^response},
              Response.ok(response)
            )
   end
